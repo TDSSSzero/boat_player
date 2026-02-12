@@ -180,7 +180,7 @@ class _WelcomePageState extends State<WelcomePage>
 
               // Welcome Text
               const Text(
-                'Boat Player',
+                '淡水',
                 style: TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.bold,
@@ -270,7 +270,8 @@ class _WelcomePageState extends State<WelcomePage>
 
               // Main Content
               Center(child: content),
-              if (Config.debug && !_checking)
+              // if (Config.debug && !_checking)
+              if (!_checking)
                 Positioned(left: 50, bottom: 50, child: _buildDebug(context)),
             ],
           ),
@@ -282,14 +283,14 @@ class _WelcomePageState extends State<WelcomePage>
   Widget _buildDebug(BuildContext context) {
     return Column(
       children: [
-        ElevatedButton(
-          onPressed: () {
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => HomePage()),
-            );
-          },
-          child: Text('home'),
-        ),
+        // ElevatedButton(
+        //   onPressed: () {
+        //     Navigator.of(context).pushReplacement(
+        //       MaterialPageRoute(builder: (context) => HomePage()),
+        //     );
+        //   },
+        //   child: Text('home'),
+        // ),
         ElevatedButton(
           onPressed: () {
             showDialog(

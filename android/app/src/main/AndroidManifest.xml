@@ -4,7 +4,7 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"/>
     <application
-        android:label="boat_player"
+        android:label="淡水"
         android:name="${applicationName}"
         android:usesCleartextTraffic="true"
         android:networkSecurityConfig="@xml/network_security_config"

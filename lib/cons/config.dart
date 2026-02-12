@@ -1,5 +1,5 @@
 final class Config {
   Config._();
-  static const title = "Boat Player";
-  static bool debug = true;
+  static const title = "淡水";
+  static bool debug = false;
 }
