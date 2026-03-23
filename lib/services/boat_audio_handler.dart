@@ -1,17 +1,32 @@
+import 'dart:async';
+
 import 'package:audio_service/audio_service.dart';
 import 'package:boat_player/utils/boat_log.dart';
 import 'package:just_audio/just_audio.dart';
 
 class BoatAudioHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
   final AudioPlayer _player;
+  bool _isHandlingCompleted = false;
 
   BoatAudioHandler(this._player) {
     _init();
   }
 
   void _init() {
-    // 监听播放状态并更新 playbackState
     _player.playbackEventStream.map(_transformEvent).pipe(playbackState);
+    _player.processingStateStream.listen(_handleProcessingStateChanged);
+  }
+
+  void _handleProcessingStateChanged(ProcessingState processingState) {
+    if (processingState != ProcessingState.completed) {
+      _isHandlingCompleted = false;
+      return;
+    }
+    if (_isHandlingCompleted) return;
+    _isHandlingCompleted = true;
+    final callback = onAutoPlayNext;
+    if (callback == null) return;
+    unawaited(callback());
   }
 
   PlaybackState _transformEvent(PlaybackEvent event) {
@@ -72,9 +87,10 @@ class BoatAudioHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
   @override
   Future<void> skipToQueueItem(int index) =>
       _player.seek(Duration.zero, index: index);
-      // 临时方案：定义回调函数
+
   Future<void> Function()? onSkipToNext;
   Future<void> Function()? onSkipToPrevious;
+  Future<void> Function()? onAutoPlayNext;
 
   @override
   Future<void> skipToNext() async {

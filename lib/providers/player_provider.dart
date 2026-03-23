@@ -73,10 +73,6 @@ class PlayerController extends _$PlayerController {
 
     final sub = _audioHandler.playbackState.listen((s) {
       vlog('provider listen: ${s.processingState}');
-      if (s.processingState == AudioProcessingState.completed && !state.isLoading) {
-        next(userTapped: false);
-      }
-
       if (state.isPlaying != s.playing) {
         state = state.copyWith(isPlaying: s.playing);
       }
@@ -85,9 +81,14 @@ class PlayerController extends _$PlayerController {
 
     _audioHandler.onSkipToNext = () => next(userTapped: true);
     _audioHandler.onSkipToPrevious = () => previous();
+    _audioHandler.onAutoPlayNext = () async {
+      if (state.isLoading) return;
+      await next(userTapped: false);
+    };
     ref.onDispose(() {
       _audioHandler.onSkipToNext = null;
       _audioHandler.onSkipToPrevious = null;
+      _audioHandler.onAutoPlayNext = null;
     });
   }
 

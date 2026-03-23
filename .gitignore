@@ -11,6 +11,13 @@
 .svn/
 .swiftpm/
 migrate_working_dir/
+.fvmrc
+.metadata
+
+*ios/
+*__MACOSX/
+#test cookie
+*my/
 
 # IntelliJ related
 *.iml
